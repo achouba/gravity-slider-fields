@@ -23,6 +23,7 @@ class GF_Field_Slider extends GF_Field {
 			'conditional_logic_field_setting',
 			'slider_value_relations',
 			'slider_step',
+			'slider_labels',
 			'slider_value_visibility',
 			'slider_connect'
 		);
@@ -142,9 +143,11 @@ class GF_Field_Slider extends GF_Field {
 		}
 
 		$step = ( isset( $this->slider_step ) && '' != $this->slider_step ) ? $this->slider_step : 1;
+		$labels = ( isset( $this->slider_labels ) && '' != $this->slider_labels ) ? $this->slider_labels : 1;
 
 		$html_input_type = ! $this->has_calculation() && ( $this->numberFormat != 'currency' && $this->numberFormat != 'decimal_comma' ) ? 'number' : 'text'; // chrome does not allow number fields to have commas, calculations and currency values display numbers with commas
 		$step_attr       = "step='{$this->slider_step}'";
+		$labels_attr       = "labels='{$this->slider_labels}'";
 
 		$min = ( isset( $this->rangeMin ) && '' != $this->rangeMin ) ? $this->rangeMin : 0;
 		$max = ( isset( $this->rangeMax ) && '' != $this->rangeMax ) ? $this->rangeMax : 10;
@@ -180,7 +183,7 @@ class GF_Field_Slider extends GF_Field {
 			$currency = '';
 		}
 
-		return sprintf( "<div class='ginput_container'><input name='input_%d' id='%s' type='{$html_input_type}' {$step_attr} {$min_attr} {$max_attr} {$data_value_visibility} ${connects_attr} value='%s' class='%s' data-min-relation='%s' data-max-relation='%s' data-value-format='%s' {$currency} {$tabindex} {$read_only} {$placeholder_attribute} %s/><div id='gsfslider_%d' class='slider-display'></div>%s</div>", $id, $field_id, esc_attr( $value ), esc_attr( $class ), esc_attr( $this->slider_min_value_relation ), esc_attr( $this->slider_max_value_relation ), esc_attr( $this->numberFormat ), $disabled_text, $id, $instruction );
+		return sprintf( "<div class='ginput_container'><input name='input_%d' id='%s' type='{$html_input_type}' {$labels_attr} {$step_attr} {$min_attr} {$max_attr} {$data_value_visibility} ${connects_attr} value='%s' class='%s' data-min-relation='%s' data-max-relation='%s' data-value-format='%s' {$currency} {$tabindex} {$read_only} {$placeholder_attribute} %s/><div id='gsfslider_%d' class='slider-display'></div>%s</div>", $id, $field_id, esc_attr( $value ), esc_attr( $class ), esc_attr( $this->slider_min_value_relation ), esc_attr( $this->slider_max_value_relation ), esc_attr( $this->numberFormat ), $disabled_text, $id, $instruction );
 
 	}
 

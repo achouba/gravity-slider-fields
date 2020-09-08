@@ -26,8 +26,9 @@ jQuery(document).ready(function($){
 					var min = parseFloat(input.attr('min'));
 					var max = parseFloat(input.attr('max'));
 					var step = parseFloat(input.attr('step'));
+					var labels = (input.attr('labels')).split("|")
 					var visibility = input.data('value-visibility');
-               var connect = input.data('connect');
+                    var connect = input.data('connect');
 					var format = input.data('value-format');
 
 					// Check whether step needs to be limited by the decimals available in the currency
@@ -82,11 +83,23 @@ jQuery(document).ready(function($){
 							'min': [ min ],
 							'max': [ max ]
 						},
+						pips: {
+							mode: 'count',
+							values: max+1-min,
+							density: 100/(labels.length-1)
+						},
+						
 						format: wNumb({
 							decimals: decs,
 						}),
                   connect: connect,
-						tooltips: formatTooltip,
+						tooltips:  {
+							to: function(value) {
+									// Math.round and -1, so 1.00 => 0, 2.00 => 2, etc.
+									return labels[Math.round(value) ];
+							},
+							from: Number
+						},
 					});
 
 					// Prevents re-initializing sliders on form pagination
@@ -107,14 +120,44 @@ jQuery(document).ready(function($){
 
 					// Add min and max relation note
 					slider.append('<span class="min-val-relation">' + minrel + '</span><span class="max-val-relation">' + maxrel + '</span>' );
+					var pipsSlider = slider[0];
+					var pips = pipsSlider.querySelectorAll('.noUi-value');
 
+					function clickOnPip() {
+						var value = Number(this.getAttribute('data-value'));
+						pipsSlider.noUiSlider.set(value);
+					}
+
+					for (var i = 0; i < pips.length; i++) {
+
+						// For this example. Do this in CSS!
+						pips[i].style.cursor = 'pointer';
+						pips[i].addEventListener('click', clickOnPip);
+					}
+					
+								
+					$('.noUi-base',slider).each(function(){
+						$(this).prepend($(this).find('.noUi-tooltip'));
+					});
+					
+					$('.noUi-value.noUi-value-horizontal.noUi-value-large',slider).each(function(){
+						var val = $(this).html();
+						val = recountVal(parseInt(val),$(this).closest('.ginput_container').find('input').first());
+						$(this).html(val);
+					});
 				}
 
 			});
 		}
 
 		renderSlider();
+			
 	};
+
+	function recountVal(val,input){
+		var labels = (input.attr('labels')).split("|");
+		return labels[val];
+	}
 
 	jQuery(document).bind('gform_page_loaded', function() {
 		if ( $('.gfield .slider').length ) {
@@ -123,5 +166,6 @@ jQuery(document).ready(function($){
 	});
 
 	sliderInit();
-
+	
+	
 });

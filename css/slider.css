@@ -25,3 +25,38 @@ input[data-value-visibility="hover-drag"] + .slider-display .noUi-active .noUi-t
 .noUi-base {
 	z-index: 1;
 }
+
+.slider-display {margin: 100px 0!important}
+
+.slider-display .noUi-tooltip{display:none;}
+
+
+.noUi-value.noUi-value-horizontal.noUi-value-large {
+    max-width: 240px;
+    white-space: normal;
+}
+
+.noUi-value.noUi-value-horizontal.noUi-value-large:nth-child(4n+4) {
+    top:-100px;
+}
+
+
+.noUi-value.noUi-value-horizontal.noUi-value-large:last-child {
+    right:-240px!important;
+}
+
+@media screen and (max-width: 767px) {
+ .slider-display {margin: 70px 0!important}
+
+.slider-display .noUi-tooltip{
+    /* left:0; */
+    display:block;
+    width: 300px;
+    white-space: normal;
+    }
+
+
+.noUi-value.noUi-value-horizontal.noUi-value-large {
+    display:none;
+}
+}

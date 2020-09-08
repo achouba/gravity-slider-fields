@@ -79,6 +79,7 @@ class GFSliderFields extends GFAddOn {
 	 * @return array
 	 */
 	public function scripts() {
+		// if(is_admin()) return parent::scripts();
 		$scripts = array(
             array(
 				'handle'  => 'noUiSlider',
@@ -102,7 +103,7 @@ class GFSliderFields extends GFAddOn {
 			),
 			array(
 				'handle'  => 'slider_fields',
-				'src'     => $this->get_base_url() . '/js/slider.min.js',
+				'src'     => $this->get_base_url() . '/js/slider.js',
 				'version' => $this->_version,
 				'deps'    => array( 'jquery', 'noUiSlider', 'wNumb' ),
 				'enqueue' => array(
@@ -227,6 +228,7 @@ class GFSliderFields extends GFAddOn {
     	        field.rangeMin = 0;
     	        field.rangeMax = 10;
     	        field.slider_step = 1;
+    	        field.slider_labels = "";
     	        field.slider_value_visibility = "hidden";
               field.slider_connect = "none";
     	    break;
@@ -248,6 +250,7 @@ class GFSliderFields extends GFAddOn {
     					jQuery("#slider_min_value_relation").val(field['slider_min_value_relation']);
     					jQuery("#slider_max_value_relation").val(field['slider_max_value_relation']);
     					jQuery("#slider_step").val(field['slider_step']);
+    					jQuery("#slider_labels").val(field['slider_labels']);
     					jQuery("#slider_value_visibility").val(field['slider_value_visibility']);
     					jQuery("#slider_connect").val(field['slider_connect']);
     				});
@@ -275,6 +278,13 @@ class GFSliderFields extends GFAddOn {
     				<div style="width:50%;float:left"><input type="text" id="slider_min_value_relation" style="width:100%;" onchange="SetFieldProperty('slider_min_value_relation', this.value);" /><label for="slider_min_value_relation"><?php _e( 'Min', 'gsf-locale' ); ?></label></div>
     				<div style="width:50%;float:left"><input type="text" id="slider_max_value_relation" style="width:100%;" onchange="SetFieldProperty('slider_max_value_relation', this.value);" /><label for="slider_max_value_relation"><?php _e( 'Max', 'gsf-locale' ); ?></label></div>
     				<br class="clear">
+    			</li>
+    			<li class="slider_labels field_setting">
+    				<div style="clear:both;">
+    					<?php _e( 'labels', 'gsf-locale' ); ?>
+    					<?php //gform_tooltip( 'slider_step' ); ?>
+    				</div>
+    				<div style="width:100%;"><input type="text" id="slider_labels" step=".01" style="width:100%;" onchange="SetFieldProperty('slider_labels', this.value);" /></div>
     			</li>
     			<li class="slider_step field_setting">
     				<div style="clear:both;">
